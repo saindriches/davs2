@@ -33,10 +33,14 @@
 #include "../common.h"
 #include "intrinsic.h"
 
+#if !HAVE_SSE2NEON
 #include <mmintrin.h>
 #include <emmintrin.h>
 #include <tmmintrin.h>
 #include <smmintrin.h>
+#else
+#include "sse2neon.h"
+#endif
 
 
 

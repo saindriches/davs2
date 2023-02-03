@@ -33,10 +33,14 @@
 #include "../common.h"
 #include "intrinsic.h"
 
+#if !HAVE_SSE2NEON
 #include <mmintrin.h>
 #include <emmintrin.h>
 #include <tmmintrin.h>
 #include <smmintrin.h>
+#else
+#include "sse2neon.h"
+#endif
 
 #if !HIGH_BIT_DEPTH
 
@@ -833,7 +837,7 @@ void deblock_edge_hor_c_sse128(pel_t *SrcPtrU, pel_t *SrcPtrV, int stride, int A
 *  Project Leader: Ronggang Wang <rgwang@pkusz.edu.cn>
 *
 *  Main Authors: Zhenyu Wang <wangzhenyu@pkusz.edu.cn>, Kui Fan <kuifan@pku.edu.cn>
-*               Shenghao Zhang <1219759986@qq.com>£¬ Bingjie Han, Kaili Yao, Hongbin Cao,  Yueming Wang,
+*               Shenghao Zhang <1219759986@qq.com>ï¿½ï¿½ Bingjie Han, Kaili Yao, Hongbin Cao,  Yueming Wang,
 *               Jing Su, Jiaying Yan, Junru Li
 *
 * This program is free software; you can redistribute it and/or modify

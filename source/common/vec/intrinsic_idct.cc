@@ -33,10 +33,14 @@
 #include "../common.h"
 #include "intrinsic.h"
 
+#if !HAVE_SSE2NEON
 #include <mmintrin.h>
 #include <emmintrin.h>
 #include <tmmintrin.h>
 #include <smmintrin.h>
+#else
+#include "sse2neon.h"
+#endif
 
 
 ALIGN32(static const coeff_t tab_idct_8x8[12][8]) = {
@@ -462,7 +466,7 @@ void idct_4x16_sse128(const coeff_t *src, coeff_t *dst, int i_dst)
 void idct_4x16_half_sse128(const coeff_t *src, coeff_t *dst, int i_dst)
 {
     // TODO: implement this
-    // ½ö1/2´óÐ¡£¬×óÉÏ½ÇµÄ4x8ÓÐ·ÇÁãÏµÊý
+    // ï¿½ï¿½1/2ï¿½ï¿½Ð¡ï¿½ï¿½ï¿½ï¿½ï¿½Ï½Çµï¿½4x8ï¿½Ð·ï¿½ï¿½ï¿½Ïµï¿½ï¿½
     idct_4x16_sse128(src, dst, i_dst);
 }
 
@@ -471,7 +475,7 @@ void idct_4x16_half_sse128(const coeff_t *src, coeff_t *dst, int i_dst)
 void idct_4x16_quad_sse128(const coeff_t *src, coeff_t *dst, int i_dst)
 {
     // TODO: implement this
-    // ½ö1/4´óÐ¡£¬×óÉÏ½ÇµÄ4x4ÓÐ·ÇÁãÏµÊý
+    // ï¿½ï¿½1/4ï¿½ï¿½Ð¡ï¿½ï¿½ï¿½ï¿½ï¿½Ï½Çµï¿½4x4ï¿½Ð·ï¿½ï¿½ï¿½Ïµï¿½ï¿½
     idct_4x16_half_sse128(src, dst, i_dst);
 }
 
@@ -747,7 +751,7 @@ void idct_16x4_sse128(const coeff_t *src, coeff_t *dst, int i_dst)
 void idct_16x4_half_sse128(const coeff_t *src, coeff_t *dst, int i_dst)
 {
     // TODO: implement this
-    // ½ö1/2´óÐ¡£¬×óÉÏ½ÇµÄ8x4ÓÐ·ÇÁãÏµÊý
+    // ï¿½ï¿½1/2ï¿½ï¿½Ð¡ï¿½ï¿½ï¿½ï¿½ï¿½Ï½Çµï¿½8x4ï¿½Ð·ï¿½ï¿½ï¿½Ïµï¿½ï¿½
     idct_16x4_sse128(src, dst, i_dst);
 }
 
@@ -756,7 +760,7 @@ void idct_16x4_half_sse128(const coeff_t *src, coeff_t *dst, int i_dst)
 void idct_16x4_quad_sse128(const coeff_t *src, coeff_t *dst, int i_dst)
 {
     // TODO: implement this
-    // ½ö1/4´óÐ¡£¬×óÉÏ½ÇµÄ4x4ÓÐ·ÇÁãÏµÊý
+    // ï¿½ï¿½1/4ï¿½ï¿½Ð¡ï¿½ï¿½ï¿½ï¿½ï¿½Ï½Çµï¿½4x4ï¿½Ð·ï¿½ï¿½ï¿½Ïµï¿½ï¿½
     idct_16x4_half_sse128(src, dst, i_dst);
 }
 
@@ -860,7 +864,7 @@ void idct_8x8_sse128(const coeff_t *src, coeff_t *dst, int i_dst)
     E2l = _mm_add_epi32(E2l, mAdd);
     E2h = _mm_sub_epi32(EE1h, E01h);
     E2h = _mm_add_epi32(E2h, mAdd);
-    S0 = _mm_packs_epi32(_mm_srai_epi32(_mm_add_epi32(E0l, O0l), 5), _mm_srai_epi32(_mm_add_epi32(E0h, O0h), 5));  // Ê×´Î·´±ä»»ÒÆÎ»Êý
+    S0 = _mm_packs_epi32(_mm_srai_epi32(_mm_add_epi32(E0l, O0l), 5), _mm_srai_epi32(_mm_add_epi32(E0h, O0h), 5));  // ï¿½×´Î·ï¿½ï¿½ä»»ï¿½ï¿½Î»ï¿½ï¿½
     S7 = _mm_packs_epi32(_mm_srai_epi32(_mm_sub_epi32(E0l, O0l), 5), _mm_srai_epi32(_mm_sub_epi32(E0h, O0h), 5));
     S1 = _mm_packs_epi32(_mm_srai_epi32(_mm_add_epi32(E1l, O1l), 5), _mm_srai_epi32(_mm_add_epi32(E1h, O1h), 5));
     S6 = _mm_packs_epi32(_mm_srai_epi32(_mm_sub_epi32(E1l, O1l), 5), _mm_srai_epi32(_mm_sub_epi32(E1h, O1h), 5));
@@ -1034,7 +1038,7 @@ void idct_8x8_sse128(const coeff_t *src, coeff_t *dst, int i_dst)
 void idct_8x8_half_sse128(const coeff_t *src, coeff_t *dst, int i_dst)
 {
     // TODO: implement this
-    // ½ö1/2´óÐ¡£¬×óÉÏ½ÇµÄ4x4ÓÐ·ÇÁãÏµÊý
+    // ï¿½ï¿½1/2ï¿½ï¿½Ð¡ï¿½ï¿½ï¿½ï¿½ï¿½Ï½Çµï¿½4x4ï¿½Ð·ï¿½ï¿½ï¿½Ïµï¿½ï¿½
     idct_8x8_sse128(src, dst, i_dst);
 }
 
@@ -1043,7 +1047,7 @@ void idct_8x8_half_sse128(const coeff_t *src, coeff_t *dst, int i_dst)
 void idct_8x8_quad_sse128(const coeff_t *src, coeff_t *dst, int i_dst)
 {
     // TODO: implement this
-    // ½ö1/4´óÐ¡£¬×óÉÏ½ÇµÄ2x2ÓÐ·ÇÁãÏµÊý
+    // ï¿½ï¿½1/4ï¿½ï¿½Ð¡ï¿½ï¿½ï¿½ï¿½ï¿½Ï½Çµï¿½2x2ï¿½Ð·ï¿½ï¿½ï¿½Ïµï¿½ï¿½
     idct_8x8_half_sse128(src, dst, i_dst);
 }
 
@@ -1429,7 +1433,7 @@ void idct_16x16_sse128(const coeff_t *src, coeff_t *dst, int i_dst)
 void idct_16x16_half_sse128(const coeff_t *src, coeff_t *dst, int i_dst)
 {
     // TODO: implement this
-    // ½ö1/2´óÐ¡£¬×óÉÏ½ÇµÄ8x8ÓÐ·ÇÁãÏµÊý
+    // ï¿½ï¿½1/2ï¿½ï¿½Ð¡ï¿½ï¿½ï¿½ï¿½ï¿½Ï½Çµï¿½8x8ï¿½Ð·ï¿½ï¿½ï¿½Ïµï¿½ï¿½
     //idct_16x16_sse128(src, dst, i_dst);
 
 
@@ -1985,7 +1989,7 @@ void idct_16x16_half_sse128(const coeff_t *src, coeff_t *dst, int i_dst)
 void idct_16x16_quad_sse128(const coeff_t *src, coeff_t *dst, int i_dst)
 {
     // TODO: implement this
-    // ½ö1/4´óÐ¡£¬×óÉÏ½ÇµÄ4x4ÓÐ·ÇÁãÏµÊý
+    // ï¿½ï¿½1/4ï¿½ï¿½Ð¡ï¿½ï¿½ï¿½ï¿½ï¿½Ï½Çµï¿½4x4ï¿½Ð·ï¿½ï¿½ï¿½Ïµï¿½ï¿½
     //idct_16x16_half_sse128(src, dst, i_dst);
 
     const int shift1 = 5;
@@ -3237,7 +3241,7 @@ void idct_32x32_sse128(const coeff_t *src, coeff_t *dst, int i_dst)
 void idct_32x32_half_sse128(const coeff_t *src, coeff_t *dst, int i_dst)
 {
     // TODO: implement this
-    // ½ö1/2´óÐ¡£¬×óÉÏ½ÇµÄ16x16ÓÐ·ÇÁãÏµÊý
+    // ï¿½ï¿½1/2ï¿½ï¿½Ð¡ï¿½ï¿½ï¿½ï¿½ï¿½Ï½Çµï¿½16x16ï¿½Ð·ï¿½ï¿½ï¿½Ïµï¿½ï¿½
     int a_flag = i_dst & 0x01;
     int shift2 = 20 - g_bit_depth - a_flag;
     int clip_depth2 = g_bit_depth + 1 + a_flag;
@@ -4275,7 +4279,7 @@ void idct_32x32_half_sse128(const coeff_t *src, coeff_t *dst, int i_dst)
 void idct_32x32_quad_sse128(const coeff_t *src, coeff_t *dst, int i_dst)
 {
     // TODO: implement this
-    // ½ö1/4´óÐ¡£¬×óÉÏ½ÇµÄ8x8ÓÐ·ÇÁãÏµÊý
+    // ï¿½ï¿½1/4ï¿½ï¿½Ð¡ï¿½ï¿½ï¿½ï¿½ï¿½Ï½Çµï¿½8x8ï¿½Ð·ï¿½ï¿½ï¿½Ïµï¿½ï¿½
     int a_flag = i_dst & 0x01;
     int shift2 = 20 - g_bit_depth - a_flag;
     int clip_depth2 = g_bit_depth + 1 + a_flag;
@@ -5309,7 +5313,7 @@ void idct_32x8_sse128(const coeff_t *src, coeff_t *dst, int i_dst)
         E2h = _mm_sub_epi32(EE1h, E01h);
         E2h = _mm_add_epi32(E2h,  m128iAdd);
 
-        m128iS0[pass] = _mm_packs_epi32(_mm_srai_epi32(_mm_add_epi32(E0l, O0l), 5), _mm_srai_epi32(_mm_add_epi32(E0h, O0h), 5));    // Ê×´Î·´±ä»»ÒÆÎ»Êý
+        m128iS0[pass] = _mm_packs_epi32(_mm_srai_epi32(_mm_add_epi32(E0l, O0l), 5), _mm_srai_epi32(_mm_add_epi32(E0h, O0h), 5));    // ï¿½×´Î·ï¿½ï¿½ä»»ï¿½ï¿½Î»ï¿½ï¿½
         m128iS7[pass] = _mm_packs_epi32(_mm_srai_epi32(_mm_sub_epi32(E0l, O0l), 5), _mm_srai_epi32(_mm_sub_epi32(E0h, O0h), 5));
         m128iS1[pass] = _mm_packs_epi32(_mm_srai_epi32(_mm_add_epi32(E1l, O1l), 5), _mm_srai_epi32(_mm_add_epi32(E1h, O1h), 5));
         m128iS6[pass] = _mm_packs_epi32(_mm_srai_epi32(_mm_sub_epi32(E1l, O1l), 5), _mm_srai_epi32(_mm_sub_epi32(E1h, O1h), 5));
@@ -6051,7 +6055,7 @@ void idct_32x8_sse128(const coeff_t *src, coeff_t *dst, int i_dst)
 void idct_32x8_half_sse128(const coeff_t *src, coeff_t *dst, int i_dst)
 {
     // TODO: implement this
-    // ½ö1/2´óÐ¡£¬×óÉÏ½ÇµÄ16x8ÓÐ·ÇÁãÏµÊý
+    // ï¿½ï¿½1/2ï¿½ï¿½Ð¡ï¿½ï¿½ï¿½ï¿½ï¿½Ï½Çµï¿½16x8ï¿½Ð·ï¿½ï¿½ï¿½Ïµï¿½ï¿½
     idct_32x8_sse128(src, dst, i_dst);
 }
 
@@ -6060,7 +6064,7 @@ void idct_32x8_half_sse128(const coeff_t *src, coeff_t *dst, int i_dst)
 void idct_32x8_quad_sse128(const coeff_t *src, coeff_t *dst, int i_dst)
 {
     // TODO: implement this
-    // ½ö1/4´óÐ¡£¬×óÉÏ½ÇµÄ8x8ÓÐ·ÇÁãÏµÊý
+    // ï¿½ï¿½1/4ï¿½ï¿½Ð¡ï¿½ï¿½ï¿½ï¿½ï¿½Ï½Çµï¿½8x8ï¿½Ð·ï¿½ï¿½ï¿½Ïµï¿½ï¿½
     idct_32x8_half_sse128(src, dst, i_dst);
 }
 
@@ -6827,7 +6831,7 @@ void idct_8x32_sse128(const coeff_t *src, coeff_t *dst, int i_dst)
             E2l = _mm_add_epi32(E2l, c32_rnd);
             E2h = _mm_sub_epi32(EE1h, E01h);
             E2h = _mm_add_epi32(E2h, c32_rnd);
-            in00 = _mm_packs_epi32(_mm_srai_epi32(_mm_add_epi32(E0l, O0l), nShift), _mm_srai_epi32(_mm_add_epi32(E0h, O0h), nShift));     // Ê×´Î·´±ä»»ÒÆÎ»Êý
+            in00 = _mm_packs_epi32(_mm_srai_epi32(_mm_add_epi32(E0l, O0l), nShift), _mm_srai_epi32(_mm_add_epi32(E0h, O0h), nShift));     // ï¿½×´Î·ï¿½ï¿½ä»»ï¿½ï¿½Î»ï¿½ï¿½
             in07 = _mm_packs_epi32(_mm_srai_epi32(_mm_sub_epi32(E0l, O0l), nShift), _mm_srai_epi32(_mm_sub_epi32(E0h, O0h), nShift));
             in01 = _mm_packs_epi32(_mm_srai_epi32(_mm_add_epi32(E1l, O1l), nShift), _mm_srai_epi32(_mm_add_epi32(E1h, O1h), nShift));
             in06 = _mm_packs_epi32(_mm_srai_epi32(_mm_sub_epi32(E1l, O1l), nShift), _mm_srai_epi32(_mm_sub_epi32(E1h, O1h), nShift));
@@ -6899,7 +6903,7 @@ void idct_8x32_sse128(const coeff_t *src, coeff_t *dst, int i_dst)
 void idct_8x32_half_sse128(const coeff_t *src, coeff_t *dst, int i_dst)
 {
     // TODO: implement this
-    // ½ö1/2´óÐ¡£¬×óÉÏ½ÇµÄ8x16ÓÐ·ÇÁãÏµÊý
+    // ï¿½ï¿½1/2ï¿½ï¿½Ð¡ï¿½ï¿½ï¿½ï¿½ï¿½Ï½Çµï¿½8x16ï¿½Ð·ï¿½ï¿½ï¿½Ïµï¿½ï¿½
     idct_8x32_sse128(src, dst, i_dst);
 }
 
@@ -6908,7 +6912,7 @@ void idct_8x32_half_sse128(const coeff_t *src, coeff_t *dst, int i_dst)
 void idct_8x32_quad_sse128(const coeff_t *src, coeff_t *dst, int i_dst)
 {
     // TODO: implement this
-    // ½ö1/4´óÐ¡£¬×óÉÏ½ÇµÄ8x8ÓÐ·ÇÁãÏµÊý
+    // ï¿½ï¿½1/4ï¿½ï¿½Ð¡ï¿½ï¿½ï¿½ï¿½ï¿½Ï½Çµï¿½8x8ï¿½Ð·ï¿½ï¿½ï¿½Ïµï¿½ï¿½
     idct_8x32_half_sse128(src, dst, i_dst);
 }
 
@@ -7114,10 +7118,10 @@ void inv_transform_4x4_2nd_sse128(coeff_t *coeff, int i_coeff)
 void inv_wavelet_64x64_sse128(coeff_t *coeff)
 {
     int i;
-    //°´ÐÐ 64*64
+    //ï¿½ï¿½ï¿½ï¿½ 64*64
     __m128i T00[8], T01[8], T02[8], T03[8], T04[8], T05[8], T06[8], T07[8], T08[8], T09[8], T10[8], T11[8], T12[8], T13[8], T14[8], T15[8], T16[8], T17[8], T18[8], T19[8], T20[8], T21[8], T22[8], T23[8], T24[8], T25[8], T26[8], T27[8], T28[8], T29[8], T30[8], T31[8], T32[8], T33[8], T34[8], T35[8], T36[8], T37[8], T38[8], T39[8], T40[8], T41[8], T42[8], T43[8], T44[8], T45[8], T46[8], T47[8], T48[8], T49[8], T50[8], T51[8], T52[8], T53[8], T54[8], T55[8], T56[8], T57[8], T58[8], T59[8], T60[8], T61[8], T62[8], T63[8];
 
-    //°´ÁÐ 16*64
+    //ï¿½ï¿½ï¿½ï¿½ 16*64
     __m128i V00[8], V01[8], V02[8], V03[8], V04[8], V05[8], V06[8], V07[8], V08[8], V09[8], V10[8], V11[8], V12[8], V13[8], V14[8], V15[8], V16[8], V17[8], V18[8], V19[8], V20[8], V21[8], V22[8], V23[8], V24[8], V25[8], V26[8], V27[8], V28[8], V29[8], V30[8], V31[8], V32[8], V33[8], V34[8], V35[8], V36[8], V37[8], V38[8], V39[8], V40[8], V41[8], V42[8], V43[8], V44[8], V45[8], V46[8], V47[8], V48[8], V49[8], V50[8], V51[8], V52[8], V53[8], V54[8], V55[8], V56[8], V57[8], V58[8], V59[8], V60[8], V61[8], V62[8], V63[8];
 
     __m128i tr0_0, tr0_1, tr0_2, tr0_3, tr0_4, tr0_5, tr0_6, tr0_7;
@@ -7396,10 +7400,10 @@ void inv_wavelet_64x64_sse128(coeff_t *coeff)
 void inv_wavelet_64x16_sse128(coeff_t *coeff)
 {
     int i;
-    //°´ÐÐ 64*16
+    //ï¿½ï¿½ï¿½ï¿½ 64*16
     __m128i T00[8], T01[8], T02[8], T03[8], T04[8], T05[8], T06[8], T07[8], T08[8], T09[8], T10[8], T11[8], T12[8], T13[8], T14[8], T15[8];
 
-    //°´ÁÐ 16*64
+    //ï¿½ï¿½ï¿½ï¿½ 16*64
     __m128i V00[2], V01[2], V02[2], V03[2], V04[2], V05[2], V06[2], V07[2], V08[2], V09[2], V10[2], V11[2], V12[2], V13[2], V14[2], V15[2], V16[2], V17[2], V18[2], V19[2], V20[2], V21[2], V22[2], V23[2], V24[2], V25[2], V26[2], V27[2], V28[2], V29[2], V30[2], V31[2], V32[2], V33[2], V34[2], V35[2], V36[2], V37[2], V38[2], V39[2], V40[2], V41[2], V42[2], V43[2], V44[2], V45[2], V46[2], V47[2], V48[2], V49[2], V50[2], V51[2], V52[2], V53[2], V54[2], V55[2], V56[2], V57[2], V58[2], V59[2], V60[2], V61[2], V62[2], V63[2];
 
     __m128i tr0_0, tr0_1, tr0_2, tr0_3, tr0_4, tr0_5, tr0_6, tr0_7;
@@ -7612,10 +7616,10 @@ void inv_wavelet_16x64_sse128(coeff_t *coeff)
     __m128i S00, S01, S02, S03, S04, S05, S06, S07, S08, S09, S10, S11, S12, S13, S14, S15, S16, S17, S18, S19, S20, S21, S22, S23, S24, S25, S26, S27, S28, S29, S30, S31;
     __m128i S32, S33, S34, S35, S36, S37, S38, S39, S40, S41, S42, S43, S44, S45, S46, S47, S48, S49, S50, S51, S52, S53, S54, S55, S56, S57, S58, S59, S60, S61, S62, S63;
 
-    //°´ÐÐ 64*16
+    //ï¿½ï¿½ï¿½ï¿½ 64*16
     __m128i T00[8], T01[8], T02[8], T03[8], T04[8], T05[8], T06[8], T07[8], T08[8], T09[8], T10[8], T11[8], T12[8], T13[8], T14[8], T15[8];
 
-    //°´ÁÐ 16*64
+    //ï¿½ï¿½ï¿½ï¿½ 16*64
     __m128i V00[2], V01[2], V02[2], V03[2], V04[2], V05[2], V06[2], V07[2], V08[2], V09[2], V10[2], V11[2], V12[2], V13[2], V14[2], V15[2], V16[2], V17[2], V18[2], V19[2], V20[2], V21[2], V22[2], V23[2], V24[2], V25[2], V26[2], V27[2], V28[2], V29[2], V30[2], V31[2], V32[2], V33[2], V34[2], V35[2], V36[2], V37[2], V38[2], V39[2], V40[2], V41[2], V42[2], V43[2], V44[2], V45[2], V46[2], V47[2], V48[2], V49[2], V50[2], V51[2], V52[2], V53[2], V54[2], V55[2], V56[2], V57[2], V58[2], V59[2], V60[2], V61[2], V62[2], V63[2];
 
     __m128i tr0_0, tr0_1, tr0_2, tr0_3, tr0_4, tr0_5, tr0_6, tr0_7;

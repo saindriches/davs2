@@ -36,7 +36,7 @@
 #include "vlc.h"
 #include "frame.h"
 
-#if HAVE_MMX
+#if HAVE_MMX || HAVE_SSE2NEON
 #include "vec/intrinsic.h"
 #endif
 
@@ -513,12 +513,12 @@ void davs2_alf_init(uint32_t cpuid, ao_funcs_t *fh)
     fh->alf_block[1] = alf_filter_block2;
 
     /* init asm function handles */
-#if HAVE_MMX
+#if HAVE_MMX || HAVE_SSE2NEON
 #if HIGH_BIT_DEPTH
-        if (cpuid & DAVS2_CPU_SSE4) {
+        if (cpuid & DAVS2_CPU_SSE4 || HAVE_SSE2NEON) {
             fh->alf_block[0] = alf_filter_block_sse128_10bit;
         }
-        if (cpuid & (DAVS2_CPU_AVX2)) {
+        if (cpuid & (DAVS2_CPU_AVX2) && !HAVE_SSE2NEON) {
             fh->alf_block[0] = alf_filter_block_avx2_10bit;
         }
 #else

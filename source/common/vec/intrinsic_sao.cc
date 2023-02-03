@@ -37,7 +37,7 @@
  *  Project Leader: Ronggang Wang <rgwang@pkusz.edu.cn>
  *
  *  Main Authors: Zhenyu Wang <wangzhenyu@pkusz.edu.cn>, Kui Fan <kuifan@pku.edu.cn>
- *               Shenghao Zhang <1219759986@qq.com>£¬ Bingjie Han, Kaili Yao, Hongbin Cao,  Yueming Wang,
+ *               Shenghao Zhang <1219759986@qq.com>ï¿½ï¿½ Bingjie Han, Kaili Yao, Hongbin Cao,  Yueming Wang,
  *               Jing Su, Jiaying Yan, Junru Li
  *
  * This program is free software; you can redistribute it and/or modify
@@ -63,13 +63,17 @@
 
 #include "intrinsic.h"
 
+#if !HAVE_SSE2NEON
 #include <mmintrin.h>
 #include <emmintrin.h>
 #include <tmmintrin.h>
 #include <smmintrin.h>
+#else
+#include "sse2neon.h"
+#endif
 
 #ifdef _MSC_VER
-#pragma warning(disable:4244)  // TODO: ÐÞÕý±àÒëwarning
+#pragma warning(disable:4244)  // TODO: ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½warning
 #endif
 
  /* ---------------------------------------------------------------------------

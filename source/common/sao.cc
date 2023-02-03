@@ -463,7 +463,7 @@ void sao_get_neighbor_avail(davs2_t *h, sao_region_t *p_avail, int i_lcu_x, int 
     int width_c = width >> 1;
     int height_c = height >> 1;
 
-    /* ¿ÉÓÃÐÔ»ñÈ¡ */
+    /* ï¿½ï¿½ï¿½ï¿½ï¿½Ô»ï¿½È¡ */
     p_avail->b_left = i_lcu_x != 0;
     p_avail->b_top  = i_lcu_y != 0;
     p_avail->b_right = (i_lcu_x < h->i_width_in_lcu - 1);
@@ -486,7 +486,7 @@ void sao_get_neighbor_avail(davs2_t *h, sao_region_t *p_avail, int i_lcu_x, int 
     p_avail->b_down_left = p_avail->b_down && p_avail->b_left;
     p_avail->b_right_down = p_avail->b_down && p_avail->b_right;
 
-    /* ÂË²¨ÇøÓòµÄµ÷Õû */
+    /* ï¿½Ë²ï¿½ï¿½ï¿½ï¿½ï¿½Äµï¿½ï¿½ï¿½ */
     if (!p_avail->b_right) {
         width += SAO_SHIFT_PIX_NUM;
         width_c += SAO_SHIFT_PIX_NUM;
@@ -645,8 +645,8 @@ void davs2_sao_init(uint32_t cpuid, ao_funcs_t *fh)
     fh->sao_filter_eo[SAO_TYPE_EO_135] = sao_block_eo_135_c;
 
     /* init asm function handles */
-#if HAVE_MMX
-    if (cpuid & DAVS2_CPU_SSE4) {
+#if HAVE_MMX || HAVE_SSE2NEON
+    if (cpuid & DAVS2_CPU_SSE4 || HAVE_SSE2NEON){
 #if !HIGH_BIT_DEPTH
         fh->sao_block_bo                   = SAO_on_block_bo_sse128;
         fh->sao_filter_eo[SAO_TYPE_EO_0]   = SAO_on_block_eo_0_sse128;

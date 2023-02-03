@@ -33,7 +33,7 @@
 #include "common.h"
 #include "primitives.h"
 
-#if HAVE_MMX
+#if HAVE_MMX || HAVE_SSE2NEON
 #include "vec/intrinsic.h"
 #endif
 

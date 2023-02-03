@@ -35,9 +35,11 @@
 #include "common.h"
 #include "mc.h"
 
-#if HAVE_MMX
+#if HAVE_MMX || HAVE_SSE2NEON
 #include "vec/intrinsic.h"
+#if !HAVE_SSE2NEON
 #include "x86/ipfilter8.h"
+#endif
 #endif
 
 
@@ -208,7 +210,7 @@ intpl_chroma_block_ver_c(pel_t *dst, int i_dst, pel_t *src, int i_src, int width
 static void
 intpl_chroma_block_ext_c(pel_t *dst, int i_dst, pel_t *src, int i_src, int width, int height, const int8_t *coeff_h, const int8_t *coeff_v)
 {
-    // TODO: ÓëlumaÍ³Ò»Êý¾ÝÀàÐÍ
+    // TODO: ï¿½ï¿½lumaÍ³Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     ALIGN16(int32_t tmp_res[(32 + 3) * 32]);
     int32_t *tmp = tmp_res;
     const int shift1 = g_bit_depth - 8;
@@ -673,8 +675,8 @@ void davs2_mc_init(uint32_t cpuid, ao_funcs_t *pf)
     pf->intpl_chroma_ext[1] = intpl_chroma_block_ext_c;
 
     /* init asm function handles */
-#if HAVE_MMX
-    if (cpuid & DAVS2_CPU_SSE42) {
+#if HAVE_MMX || HAVE_SSE2NEON
+    if (cpuid & DAVS2_CPU_SSE42 || HAVE_SSE2NEON){
 #if HIGH_BIT_DEPTH
         //10bit assemble
 #else
@@ -706,8 +708,8 @@ void davs2_mc_init(uint32_t cpuid, ao_funcs_t *pf)
         pf->intpl_luma_hor[0][2] = intpl_luma_block_hor_sse128;
         pf->intpl_luma_ext[0] = intpl_luma_block_ext_sse128;
 
-        /*Á½¸ö²îÖµº¯ÊýÓÐ²»Æ¥ÅäÎÊÌâ¡£
-          ÐÞ¸ÄÊ±Çë×¢Òâ¹Ø±Õavx2»ã±àº¯Êý¡£
+        /*ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½ï¿½Ð²ï¿½Æ¥ï¿½ï¿½ï¿½ï¿½ï¿½â¡£
+          ï¿½Þ¸ï¿½Ê±ï¿½ï¿½×¢ï¿½ï¿½Ø±ï¿½avx2ï¿½ï¿½àº¯ï¿½ï¿½ï¿½ï¿½
          */
         //pf->intpl_chroma_ver[0] = intpl_chroma_block_ver_sse128;
         pf->intpl_chroma_hor[0] = intpl_chroma_block_hor_sse128;

@@ -191,8 +191,8 @@ void davs2_pixel_init(uint32_t cpuid, ao_funcs_t* pixf)
     ALL_LUMA_PU(copy_pp, blockcopy_pp, );
     ALL_LUMA_PU(copy_ss, blockcopy_ss, );
 
-#if HAVE_MMX
-    if (cpuid & DAVS2_CPU_SSE2) {
+#if HAVE_MMX || HAVE_SSE2NEON
+    if (cpuid & DAVS2_CPU_SSE2 && !HAVE_SSE2NEON) {
 #if HIGH_BIT_DEPTH
         //10bit assemble
         if (sizeof(pel_t) == sizeof(int16_t) && cpuid) {
@@ -255,7 +255,7 @@ void davs2_pixel_init(uint32_t cpuid, ao_funcs_t* pixf)
 #endif
     }
 
-    if (cpuid & DAVS2_CPU_SSE4) {
+    if (cpuid & DAVS2_CPU_SSE4 || HAVE_SSE2NEON) {
 #if HIGH_BIT_DEPTH
         //10bit assemble
 #else
@@ -282,7 +282,7 @@ void davs2_pixel_init(uint32_t cpuid, ao_funcs_t* pixf)
 #endif
     }
     
-    if (cpuid & DAVS2_CPU_AVX) {
+    if (cpuid & DAVS2_CPU_AVX && !HAVE_SSE2NEON) {
 #if HIGH_BIT_DEPTH
         //10bit assemble
         if (sizeof(pel_t) == sizeof(int16_t) && cpuid) {
@@ -355,7 +355,7 @@ void davs2_pixel_init(uint32_t cpuid, ao_funcs_t* pixf)
 #endif
     }
 
-    if (cpuid & DAVS2_CPU_AVX2) {
+    if (cpuid & DAVS2_CPU_AVX2 && !HAVE_SSE2NEON) {
 #if HIGH_BIT_DEPTH
         //10bit assemble
 #else

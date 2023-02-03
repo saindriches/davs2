@@ -34,7 +34,7 @@
 #include "deblock.h"
 #include "quant.h"
 
-#if HAVE_MMX
+#if HAVE_MMX || HAVE_SSE2NEON
 #include "vec/intrinsic.h"
 #endif
 /* ---------------------------------------------------------------------------
@@ -430,7 +430,7 @@ static void lf_scu_deblock(davs2_t *h, pel_t *p_dec[3], int stride, int stride_c
         b_filter_flag[1] = lf_skip_filter(h, scuP, scuQ, dir, (scu_x << 1) + dir, (scu_y << 1) + !dir);
 
         if (!b_filter_flag[0] && !b_filter_flag[1]) {
-            return;  // Èç¹ûÁ½¸ö8x4¶¼Ìø¹ýÂË²¨£¬Ôò²»ÐèÒª¼ÌÐøµ÷ÓÃºóÃæµÄº¯Êý
+            return;  // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½8x4ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ë²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ãºï¿½ï¿½ï¿½Äºï¿½ï¿½ï¿½
         }
 
         /* deblock luma edge */
@@ -561,8 +561,8 @@ void davs2_deblock_init(uint32_t cpuid, ao_funcs_t* fh)
     fh->set_deblock_const = NULL;
 
     /* init asm function handles */
-#if HAVE_MMX
-    if ((cpuid & DAVS2_CPU_SSE4) && !HDR_CHROMA_DELTA_QP) {
+#if HAVE_MMX || HAVE_SSE2NEON
+    if (((cpuid & DAVS2_CPU_SSE4) || HAVE_SSE2NEON) && !HDR_CHROMA_DELTA_QP) {
 #if !HIGH_BIT_DEPTH
         fh->deblock_luma  [0] = deblock_edge_ver_sse128;
         fh->deblock_luma  [1] = deblock_edge_hor_sse128;
@@ -577,7 +577,7 @@ void davs2_deblock_init(uint32_t cpuid, ao_funcs_t* fh)
     }
     if ((cpuid & DAVS2_CPU_AVX2) && !HDR_CHROMA_DELTA_QP) {
 #if !HIGH_BIT_DEPTH
-        // fh->deblock_luma[0] = deblock_edge_ver_avx2;  // @luofl i7-6700K ´Ëº¯ÊýÂýÓÚ sse128
+        // fh->deblock_luma[0] = deblock_edge_ver_avx2;  // @luofl i7-6700K ï¿½Ëºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ sse128
         // fh->deblock_luma[1] = deblock_edge_hor_avx2;
         // fh->deblock_chroma[0] = deblock_edge_ver_c_avx2;
         // fh->deblock_chroma[1] = deblock_edge_hor_c_avx2;

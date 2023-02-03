@@ -33,10 +33,15 @@
 #include "../common.h"
 #include "intrinsic.h"
 
+#if !HAVE_SSE2NEON
 #include <mmintrin.h>
 #include <emmintrin.h>
 #include <tmmintrin.h>
 #include <smmintrin.h>
+#else
+#include "sse2neon.h"
+#endif
+
 
 //#if HIGH_BIT_DEPTH
 ALIGN32(const int32_t intrinsic_mask[15][16]) = {
