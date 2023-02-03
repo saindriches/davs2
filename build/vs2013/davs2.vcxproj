@@ -123,11 +123,12 @@
       </PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>HIGH_BIT_DEPTH=0;WIN32;ARCH_X86_64=1;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>HIGH_BIT_DEPTH=1;WIN32;ARCH_X86_64=1;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
       <AdditionalIncludeDirectories>..\..\;..\..\source;..\..\pthread;..\..\source\test\getopt;</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -168,12 +169,13 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>HIGH_BIT_DEPTH=0;WIN32;ARCH_X86_64=1;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>HIGH_BIT_DEPTH=1;WIN32;ARCH_X86_64=1;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
       <AdditionalIncludeDirectories>..\..\;..\..\source;..\..\pthread;..\..\source\test\getopt;</AdditionalIncludeDirectories>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
