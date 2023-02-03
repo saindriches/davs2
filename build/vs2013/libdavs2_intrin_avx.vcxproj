@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\source\common\vec\intrinsic_alf_avx2.c" />
+    <ClCompile Include="..\..\source\common\vec\intrinsic_alf_avx2.cc" />
     <ClCompile Include="..\..\source\common\vec\intrinsic_deblock_avx2.cc" />
     <ClCompile Include="..\..\source\common\vec\intrinsic_idct_avx2.cc" />
     <ClCompile Include="..\..\source\common\vec\intrinsic_inter_pred_avx2.cc" />

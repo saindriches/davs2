@@ -676,7 +676,7 @@ void davs2_mc_init(uint32_t cpuid, ao_funcs_t *pf)
 
     /* init asm function handles */
 #if HAVE_MMX || HAVE_SSE2NEON
-    if (cpuid & DAVS2_CPU_SSE42 || HAVE_SSE2NEON){
+    if ((cpuid & DAVS2_CPU_SSE42) || HAVE_SSE2NEON){
 #if HIGH_BIT_DEPTH
         //10bit assemble
 #else

@@ -646,7 +646,7 @@ void davs2_sao_init(uint32_t cpuid, ao_funcs_t *fh)
 
     /* init asm function handles */
 #if HAVE_MMX || HAVE_SSE2NEON
-    if (cpuid & DAVS2_CPU_SSE4 || HAVE_SSE2NEON){
+    if ((cpuid & DAVS2_CPU_SSE4) || HAVE_SSE2NEON){
 #if !HIGH_BIT_DEPTH
         fh->sao_block_bo                   = SAO_on_block_bo_sse128;
         fh->sao_filter_eo[SAO_TYPE_EO_0]   = SAO_on_block_eo_0_sse128;

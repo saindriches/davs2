@@ -896,8 +896,9 @@ if [ $asm = auto -a $ARCH = AARCH64 ] ; then
     asm="no"
 fi
 
+define HAVE_SSE2NEON 0
 if [ $asm = no ] && [ $sse2neon = yes ] && [ $ARCH = AARCH64 ] ; then
-    define HAVE_SSE2NEON
+    define HAVE_SSE2NEON 1
 fi
 
 if [ $asm = auto -a \( $ARCH = ARM -o $ARCH = AARCH64 \) ] ; then

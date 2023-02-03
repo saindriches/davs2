@@ -2632,7 +2632,7 @@ void davs2_intra_pred_init(uint32_t cpuid, ao_funcs_t *pf)
     ipred[INTRA_ANG_Y_32]  = intra_pred_ang_y_32_c;
 
 #if HAVE_MMX || HAVE_SSE2NEON
-    if (cpuid & DAVS2_CPU_SSE4 || HAVE_SSE2NEON){
+    if ((cpuid & DAVS2_CPU_SSE4) || HAVE_SSE2NEON){
 #if !HIGH_BIT_DEPTH
         ipred[DC_PRED   ] = intra_pred_dc_sse128;
         ipred[PLANE_PRED] = intra_pred_plane_sse128;
