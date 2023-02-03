@@ -49,6 +49,16 @@ OBJCLI =
 ## SRCS    += common/win32thread.cc
 ## endif
 
+SRC_SSE =	common/vec/intrinsic.cc \
+			common/vec/intrinsic_alf.cc \
+			common/vec/intrinsic_sao.cc \
+			common/vec/intrinsic_deblock.cc \
+			common/vec/intrinsic_intra-filledge.cc \
+			common/vec/intrinsic_intra-pred.cc \
+			common/vec/intrinsic_inter_pred.cc \
+			common/vec/intrinsic_idct.cc \
+			common/vec/intrinsic_pixel.cc
+
 # MMX/SSE optims
 ifneq ($(AS),)
 # asm --------------------------------------------------------------
@@ -68,15 +78,7 @@ endif
 ## Until now, we do not have 64-bit asm
 ifeq ($(SYS_ARCH),X86_64)
 ARCH_X86 = yes
-SRCS     += common/vec/intrinsic.cc \
-			common/vec/intrinsic_alf.cc \
-			common/vec/intrinsic_sao.cc \
-			common/vec/intrinsic_deblock.cc \
-			common/vec/intrinsic_intra-filledge.cc \
-			common/vec/intrinsic_intra-pred.cc \
-			common/vec/intrinsic_inter_pred.cc \
-			common/vec/intrinsic_idct.cc \
-			common/vec/intrinsic_pixel.cc
+SRCS     += $(SRC_SSE)
 
 SRCSAVX = common/vec/intrinsic_sao_avx2.cc \
 		  common/vec/intrinsic_deblock_avx2.cc \
@@ -131,9 +133,9 @@ ASMSRC += common/aarch64/bitstream-a.S \
           common/aarch64/pixel-a.S   \
           common/aarch64/predict-a.S \
           common/aarch64/quant-a.S
-SRCS   += common/aarch64/asm-offsets.cc \
-          common/aarch64/mc-c.cc        \
-          common/aarch64/predict-c.cc
+SRCS   += common/aarch64/asm-offsets.c \
+          common/aarch64/mc-c.c        \
+          common/aarch64/predict-c.c
 OBJASM  = $(ASMSRC:%.S=%.o)
 OBJCHK += tools/checkasm-aarch64.o
 endif
@@ -150,6 +152,11 @@ endif
 # asm --------------------------------------------------------------
 endif 
 # here ends ifneq ($(AS),)
+
+CONFIG = $(shell cat config.h)
+ifneq ($(findstring HAVE_SSE2NEON 1, $(CONFIG)),)
+SRCS     += $(SRC_SSE)
+endif
 
 ifneq ($(HAVE_GETOPT_LONG),1)
 SRCS += compat/getopt/getopt.cc

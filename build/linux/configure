@@ -35,6 +35,7 @@ Configuration options:
 
 Advanced options:
   --disable-asm            disable platform-specific assembly optimizations
+  --disable-sse2neon       disable SSE2NEON (ARM64 Only)
   --enable-lto             enable link-time optimization
   --enable-debug           add -g
   --enable-gprof           add -pg
@@ -337,6 +338,7 @@ static="yes"
 gpl="yes"
 thread="auto"
 asm="auto"
+sse2neon="yes"
 interlaced="yes"
 lto="no"
 debug="no"
@@ -404,6 +406,9 @@ for opt do
         --disable-asm)
             asm="no"
             ;;
+        --disable-sse2neon)
+            sse2neon="no"
+            ;;
         --disable-interlaced)
             interlaced="no"
             ;;
@@ -466,7 +471,7 @@ for opt do
             if [ "$bit_depth" -lt "8" -o "$bit_depth" -gt "10" ]; then
                 echo "Supplied bit depth must be in range [8,10]."
                 exit 1
-            elif [[ "$bit_depth" = "9" || "$bit_depth" = "10" ]]; then
+            elif [[ "$bit_depth" = "9" ]]; then
                 echo "BitDepth $bit_depth not supported currently."
                 exit 1
             fi
@@ -890,6 +895,10 @@ if [ $asm = auto -a $ARCH = AARCH64 ] ; then
     fi
 fi
 
+if [ $asm = no ] && [ $sse2neon = yes ] && [ $ARCH = AARCH64 ] ; then
+    define HAVE_SSE2NEON
+fi
+
 if [ $asm = auto -a \( $ARCH = ARM -o $ARCH = AARCH64 \) ] ; then
     # check if the assembler supports '.func' (clang 3.5 does not)
     as_check ".func test${NL}.endfunc" && define HAVE_AS_FUNC 1
@@ -1310,6 +1319,7 @@ libdavs2:      $cli_libdavs2
 shared:        $shared
 static:        $static
 asm:           $asm
+sse2neon:      $sse2neon
 interlaced:    $interlaced
 gpl:           $gpl
 thread:        $thread
