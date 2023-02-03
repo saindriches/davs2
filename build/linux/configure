@@ -886,13 +886,14 @@ if [ $asm = auto -a $ARCH = ARM ] ; then
 fi
 
 if [ $asm = auto -a $ARCH = AARCH64 ] ; then
-    if  cc_check '' '' '__asm__("cmeq v0.8h, v0.8h, #0");' ; then define HAVE_NEON
-        ASFLAGS="$ASFLAGS -c"
-    else
-        echo "no NEON support, try adding -mfpu=neon to CFLAGS"
-        echo "If you really want to run on such a CPU, configure with --disable-asm."
-        exit 1
-    fi
+#    if  cc_check '' '' '__asm__("cmeq v0.8h, v0.8h, #0");' ; then define HAVE_NEON
+#        ASFLAGS="$ASFLAGS -c"
+#    else
+#        echo "no NEON support, try adding -mfpu=neon to CFLAGS"
+#        echo "If you really want to run on such a CPU, configure with --disable-asm."
+#        exit 1
+#    fi
+    asm="no"
 fi
 
 if [ $asm = no ] && [ $sse2neon = yes ] && [ $ARCH = AARCH64 ] ; then
